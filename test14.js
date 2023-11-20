@@ -45,30 +45,87 @@
 //   "11": ["P", "R", "S", "D"],
 // }
 
-// output = {
+output = {
+  "11": ["P", "R", "S"],
+  "53": ["C"],
+  "236": ["L", "X", "G", "H"],
+  "432": ["A", "B", "D"],
+}
+
+const removeDuplicateIds = (obj) => {
+    // const uniqueChars = {}; // Object to store unique characters for each key
+  
+    // // Iterate through each key-value pair
+    // Object.entries(obj).forEach(([key, arr]) => {
+    //   uniqueChars[key] = [...new Set(arr)]; // Use Set to store only unique characters
+    // });
+  
+    // return uniqueChars;
+    // return Object.values(obj)
+    let sorted = {}
+    n = Object.keys(obj).length
+    keys = Object.keys(obj)
+    values = Object.values(obj)
+    //sorting an obj acc to the keys in ascending order
+    for(let i = 0 ; i<n-1 ;i++){
+      for (let j=0 ; j<n-i-1 ;j++){
+        if (keys[i]>keys[j]){
+          const temp = keys[j]
+          keys[j] = keys[j+1]
+          keys[j+1] = temp
+          const tempo = values[j]
+          values[j] = values[j+1]
+          values[j+1] = tempo
+        }
+      }
+    }
+    for(let i = 0;i<n;i++){
+      sorted[keys[i]]= values[i]
+    }
+
+    //duplicatremoving
+    newKeys = Object.keys(sorted)
+    newVal = Object.values(sorted)
+    const visited = []
+    for(let i = n-1;i>=0;i--){
+      const unique = []
+      for (let j=0;j<newVal[i].length;j++){
+        if(!unique.includes(newVal[i][j]) && !visited.includes(newVal[i][j])){
+          unique.push(newVal[i][j])
+          visited.push(newVal[i][j])
+        }
+      }
+      newVal[i]= unique
+    }
+    let final = {}
+    for(let i=0;i<n;i++){
+      final[newKeys[i]]= newVal[i]
+    }
+    return final
+
+  };
+  
+
+// const testObj = {
+//     '2000': 'Articel1',
+//     '4000': 'Articel2',
+//     '1000': 'Articel3',
+//     '3000': 'Articel4',
+//   };
+
+// const testObj = {
 //   "11": ["P", "R", "S"],
 //   "53": ["C"],
 //   "236": ["L", "X", "G", "H"],
 //   "432": ["A", "B", "D"],
 // }
 
-const removeDuplicateIds = (obj) => {
-    const uniqueChars = {}; // Object to store unique characters for each key
-  
-    // Iterate through each key-value pair
-    Object.entries(obj).forEach(([key, arr]) => {
-      uniqueChars[key] = [...new Set(arr)]; // Use Set to store only unique characters
-    });
-  
-    return uniqueChars;
-  };
-  
+const obj1 = {
+  "4": ["C", "F", "G"],
+  "2": ["A", "B", "C","D","F","D","E"],
+  "3": ["A", "B", "D"],
+};
 
-const testObj = {
-    '2000': 'Articel1',
-    '4000': 'Articel2',
-    '1000': 'Articel3',
-    '3000': 'Articel4',
-  };
-  a=removeDuplicateIds(testObj)
+  // a=removeDuplicateIds(testObj)
+  a=removeDuplicateIds(obj1)
   console.log(a)
